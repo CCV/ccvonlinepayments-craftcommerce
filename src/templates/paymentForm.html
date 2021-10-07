@@ -1,0 +1,57 @@
+<div class="ccvonlinepaymentsForm">
+    {% for method in paymentMethods %}
+        <label style="height:50px;line-height:50px;display:block;">
+            <input type="radio" class="paymentMethod" name="paymentMethod" value="{{method.id}}" style="vertical-align: middle;width:50px">
+            <div style="width: 150px; display:inline-block; text-align: center;">
+                <img src="{{dataUrl('@CCVOnlinePayments/CraftCMS/resources/methods/'~method.id~'.png')}}" style="height:50px; display:inline;vertical-align: middle;">
+            </div>
+            <span style="vertical-align: middle;">
+                {{method.name}}
+            </span>
+        </label><BR>
+
+        {% if method.issuers is defined %}
+            <div class="issuersContainer" data-method="{{method.id}}" style="display:none;padding-left:50px;margin-bottom:50px;">
+                <select name="issuer" class="issuerSelect" style="width:100%;">
+                    <option>{{'Kies uw bank...' | t('commerce')}}</option>
+                    {%for issuer in method.issuers %}}
+                        <option value="{{issuer.id}}">{{issuer.name}}</option>
+                    {%endfor%}}
+                </select>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script>
+    function ccvOnlinePaymentsToggleIssuerVisibility() {
+        let selectedMethod = document.querySelector(".ccvonlinepaymentsForm .paymentMethod:checked");
+        if(selectedMethod === null) {
+            selectedMethod = null;
+        }else {
+            selectedMethod = selectedMethod.value;
+        }
+
+        let issuersContainers = document.querySelectorAll(".issuersContainer");
+        for(let i=0;i<issuersContainers.length;i++) {
+            let issuers = issuersContainers[i];
+
+            if(issuers.getAttribute("data-method") === selectedMethod) {
+                issuers.style.display = "block";
+                issuers.querySelector(".issuerSelect").setAttribute("name","issuer");
+            }else{
+                issuers.style.display = "none";
+                issuers.querySelector(".issuerSelect").setAttribute("name","");
+            }
+        }
+    }
+
+    window.addEventListener('load', (event) => {
+        let radioButtons = document.querySelectorAll(".ccvonlinepaymentsForm .paymentMethod");
+        for(let i=0;i<radioButtons.length;i++) {
+            radioButtons[i].addEventListener("change", ccvOnlinePaymentsToggleIssuerVisibility);
+        }
+
+        ccvOnlinePaymentsToggleIssuerVisibility();
+    });
+</script>

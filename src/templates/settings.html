@@ -1,0 +1,91 @@
+{% from "_includes/forms" import autosuggestField,checkboxField %}
+
+{{ autosuggestField({
+    label: 'API Key'|t('commerce'),
+    id: 'apiKey',
+    class: 'ltr',
+    name: 'apiKey',
+    suggestEnvVars: true,
+    value: gateway.apiKey,
+    errors: gateway.getErrors('apiKey')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable iDeal'|t('commerce'),
+    id: 'methodEnabledIdeal',
+    name: 'methodEnabledIdeal',
+    checked: gateway.methodEnabledIdeal,
+    errors: gateway.getErrors('methodEnabledIdeal')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Bancontact'|t('commerce'),
+    id: 'methodEnabledCard_bcmc',
+    name: 'methodEnabledCard_bcmc',
+    checked: gateway.methodEnabledCard_bcmc,
+    errors: gateway.getErrors('methodEnabledCard_bcmc')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Maestro'|t('commerce'),
+    id: 'methodEnabledCard_maestro',
+    name: 'methodEnabledCard_maestro',
+    checked: gateway.methodEnabledCard_maestro,
+    errors: gateway.getErrors('methodEnabledCard_maestro')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Mastercard'|t('commerce'),
+    id: 'methodEnabledCard_mastercard',
+    name: 'methodEnabledCard_mastercard',
+    checked: gateway.methodEnabledCard_mastercard,
+    errors: gateway.getErrors('methodEnabledCard_mastercard')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Visa'|t('commerce'),
+    id: 'methodEnabledCard_visa',
+    name: 'methodEnabledCard_visa',
+    checked: gateway.methodEnabledCard_visa,
+    errors: gateway.getErrors('methodEnabledCard_visa')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Paypal'|t('commerce'),
+    id: 'methodEnabledPaypal',
+    name: 'methodEnabledPaypal',
+    checked: gateway.methodEnabledPaypal,
+    errors: gateway.getErrors('methodEnabledPaypal')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable American Express'|t('commerce'),
+    id: 'methodEnabledCard_amex',
+    name: 'methodEnabledCard_amex',
+    checked: gateway.methodEnabledCard_amex,
+    errors: gateway.getErrors('methodEnabledCard_amex')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Sofort'|t('commerce'),
+    id: 'methodEnabledSofort',
+    name: 'methodEnabledSofort',
+    checked: gateway.methodEnabledSofort,
+    errors: gateway.getErrors('methodEnabledSofort')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Giropay'|t('commerce'),
+    id: 'methodEnabledGiropay',
+    name: 'methodEnabledGiropay',
+    checked: gateway.methodEnabledGiropay,
+    errors: gateway.getErrors('methodEnabledGiropay')
+}) }}
+
+{{ checkboxField({
+    label: 'Enable Bank Transfer'|t('commerce'),
+    id: 'methodEnabledBanktransfer',
+    name: 'methodEnabledBanktransfer',
+    checked: gateway.methodEnabledBanktransfer,
+    errors: gateway.getErrors('methodEnabledBanktransfer')
+}) }}

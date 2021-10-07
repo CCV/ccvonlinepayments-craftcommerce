@@ -1,0 +1,28 @@
+{
+  "name": "ccv/craftcommerce",
+  "description": "Official CCV Payment Services plugin for Craft Commerce",
+  "type": "craft-plugin",
+  "keywords": ["plugin", "payments", "craftcms", "ccv"],
+  "homepage": "https://github.com/CCV/ccvonlinepayments-craftcommerce",
+  "license": "MIT",
+  "version": "1.0.9",
+  "require": {
+    "php": "~7.2||~7.3||~7.4",
+    "craftcms/cms": "^3.1.0",
+    "craftcms/commerce": "^3.3",
+    "ccv/omnipay": "^1.0",
+    "craftcms/commerce-omnipay": "^3.0"
+  },
+  "require-dev": {
+    "ccv/images": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "CCVOnlinePayments\\CraftCMS\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "CCV Online Payments",
+    "handle": "ccvonlinepayments"
+  }
+}
