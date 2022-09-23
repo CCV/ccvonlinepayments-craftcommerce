@@ -13,6 +13,8 @@ use craft\commerce\records\Transaction as TransactionRecord;
 use craft\web\Response as WebResponse;
 use craft\web\View;
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\CreditCard;
+use Omnipay\Common\ItemBag;
 use Omnipay\Common\Message\ResponseInterface;
 use yii\log\Logger;
 
@@ -51,7 +53,7 @@ class Gateway extends OffsiteGateway {
     /** @var bool */
     public $methodEnabledBanktransfer;
 
-    public function populateRequest(array &$request, BasePaymentForm $paymentForm = null)
+    public function populateRequest(array &$request, BasePaymentForm $paymentForm = null) : void
     {
         /** @var PaymentFormModel $paymentForm */
         if($paymentForm) {
@@ -104,9 +106,15 @@ class Gateway extends OffsiteGateway {
         return true;
     }
 
-    public function getTransactionHashFromWebhook()
+    public function getTransactionHashFromWebhook() : ?string
     {
         return \Craft::$app->getRequest()->getParam('commerceTransactionHash');
+    }
+
+    protected function createPaymentRequest(Transaction $transaction, ?CreditCard $card = null, ?ItemBag $itemBag = null): array {
+        $paymentRequest = parent::createPaymentRequest($transaction, $card, $itemBag);
+        $paymentRequest['transactionReference'] = $transaction->reference;
+        return $paymentRequest;
     }
 
     public function processWebHook(): WebResponse
@@ -135,10 +143,9 @@ class Gateway extends OffsiteGateway {
             return $response;
         }
 
-        $id = \Craft::$app->getRequest()->getBodyParam('id');
         $gateway = $this->createGateway();
         /** @var FetchTransactionRequest $request */
-        $request = $gateway->fetchTransaction(['transactionReference' => $id]);
+        $request = $gateway->fetchTransaction(['transactionReference' => $transaction->reference]);
         $res = $request->send();
 
         if (!$res->isSuccessful()) {
@@ -171,7 +178,7 @@ class Gateway extends OffsiteGateway {
         return $response;
     }
 
-    public function getSettingsHtml()
+    public function getSettingsHtml() : ?string
     {
         return \Craft::$app->getView()->renderTemplate('ccvonlinepayments/settings', ['gateway' => $this]);
     }
@@ -181,7 +188,7 @@ class Gateway extends OffsiteGateway {
         return new PaymentFormModel();
     }
 
-    public function getPaymentFormHtml(array $params)
+    public function getPaymentFormHtml(array $params) : ?string
     {
         $params = array_merge([
             "gateway"           => $this,
@@ -228,7 +235,14 @@ class Gateway extends OffsiteGateway {
             }
         }
 
-        $countryCode  = \craft\commerce\Plugin::getInstance()->getCarts()->getCart()->billingAddress->countryIso;
+        $billingAddress = \craft\commerce\Plugin::getInstance()->getCarts()->getCart()->billingAddress;
+        if(method_exists($billingAddress, "getCountryCode")) {
+            $countryCode = $billingAddress->getCountryCode();
+        }elseif(method_exists($billingAddress, "getCountryIso")) {
+            $countryCode  = $billingAddress->getCountryIso();
+        }else{
+            throw new \Exception("Unsupported address object");
+        }
         return $this->sortMethods($paymentMethods, $countryCode);
     }
 
@@ -299,7 +313,7 @@ class Gateway extends OffsiteGateway {
         ];
     }
 
-    protected function getGatewayClassName()
+    protected function getGatewayClassName() : ?string
     {
         return '\\'. \CCVOnlinePayments\Omnipay\Gateway::class;
     }
