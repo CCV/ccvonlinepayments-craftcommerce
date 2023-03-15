@@ -5,13 +5,13 @@
   "keywords": ["plugin", "payments", "craftcms", "ccv"],
   "homepage": "https://github.com/CCV/ccvonlinepayments-craftcommerce",
   "license": "MIT",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "require": {
-    "php": ">7.2,<8.1.999",
-    "craftcms/cms": "^3.1.0|^4",
-    "craftcms/commerce": "^3.3|^4",
+    "php": ">7.2,<8.2.999",
+    "craftcms/cms": "^4",
+    "craftcms/commerce": "^4",
     "ccv/omnipay": "^1.0",
-    "craftcms/commerce-omnipay": "^3.0|^4.0"
+    "craftcms/commerce-omnipay": "^4.0"
   },
   "require-dev": {
     "ccv/images": "^1.1"
