@@ -27,6 +27,9 @@ class Gateway extends OffsiteGateway {
     public $methodEnabledIdeal;
 
     /** @var bool */
+    public $methodEnabledApplepay;
+
+    /** @var bool */
     public $methodEnabledCard_bcmc;
 
     /** @var bool */
@@ -250,6 +253,7 @@ class Gateway extends OffsiteGateway {
         $sortedMethodIds = [
             "ideal",
             "card_bcmc",
+            "applepay",
             "card_maestro",
             "card_mastercard",
             "card_visa",

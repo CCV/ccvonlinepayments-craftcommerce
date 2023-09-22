@@ -19,6 +19,14 @@
 }) }}
 
 {{ checkboxField({
+label: 'Enable Apple Pay'|t('commerce'),
+id: 'methodEnabledApplepay',
+name: 'methodEnabledApplepay',
+checked: gateway.methodEnabledApplepay,
+errors: gateway.getErrors('methodEnabledApplepay')
+}) }}
+
+{{ checkboxField({
     label: 'Enable Bancontact'|t('commerce'),
     id: 'methodEnabledCard_bcmc',
     name: 'methodEnabledCard_bcmc',
