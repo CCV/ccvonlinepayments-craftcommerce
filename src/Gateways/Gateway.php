@@ -221,6 +221,19 @@ class Gateway extends OffsiteGateway {
             return $paymentMethodRequest->sendData($paymentMethodRequest->getData())->getPaymentMethods();
         }, 60*60);
 
+        $filterMethods = [
+            "terminal"      => true,
+            "landingpage"   => true,
+            "gift"          => true,
+            "softpos"       => true,
+            "payconiq"      => true,
+            "alipay"        => true,
+            "sdd"           => true
+        ];
+        $paymentMethods = array_filter($paymentMethods, function($paymentMethod) use ($filterMethods) {
+            return !isset($filterMethods[$paymentMethod['id']]);
+        });
+
         foreach($paymentMethods as $pmKey => &$paymentMethod) {
             $enabledProperty = "methodEnabled".ucfirst($paymentMethod['id']);
             if(!isset($this->$enabledProperty) || !$this->$enabledProperty) {
