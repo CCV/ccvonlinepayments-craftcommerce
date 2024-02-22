@@ -10,7 +10,7 @@
             </span>
         </label><BR>
 
-        {% if method.issuers is defined %}
+        {% if method.id != "ideal" and method.issuers is defined %}
             <div class="issuersContainer" data-method="{{method.id}}" style="display:none;padding-left:50px;margin-bottom:50px;">
                 <select name="issuer" class="issuerSelect" style="width:100%;">
                     <option>{{'Kies uw bank...' | t('commerce')}}</option>
